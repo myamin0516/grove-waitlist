@@ -1,74 +1,90 @@
-import sharp from 'sharp';
-import copyContent from '../data/copy.json';
+import sharp from "sharp";
+import copyContent from "../data/copy.json";
+
+function escapeXml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function wrapText(text: string, maxChars: number): string[] {
+  const words = text.split(" ");
+  const lines: string[] = [];
+  let currentLine = "";
+
+  for (const word of words) {
+    const next = currentLine ? `${currentLine} ${word}` : word;
+    if (next.length <= maxChars) {
+      currentLine = next;
+    } else {
+      if (currentLine) lines.push(currentLine);
+      currentLine = word;
+    }
+  }
+  if (currentLine) lines.push(currentLine);
+  return lines;
+}
 
 async function generateOGImage() {
   try {
-    // Function to wrap text at a specific width
-    function wrapText(text: string, maxChars: number): string[] {
-      const words = text.split(' ');
-      const lines: string[] = [];
-      let currentLine = '';
+    const width = 1200;
+    const height = 630;
 
-      words.forEach(word => {
-        if ((currentLine + word).length <= maxChars) {
-          currentLine += (currentLine ? ' ' : '') + word;
-        } else {
-          lines.push(currentLine);
-          currentLine = word;
-        }
-      });
-      lines.push(currentLine);
-      return lines;
-    }
+    const brand = escapeXml(copyContent.brand.name);
+    const tagline = escapeXml(copyContent.brand.tagline);
+    const subheadingLines = wrapText(copyContent.hero.subheading, 48).map(
+      escapeXml
+    );
 
-    // Wrap the subtitle text
-    const subtitleLines = wrapText(copyContent.bodyText, 60);
+    const icon = await sharp("app/images/Grove-01.png")
+      .resize(140, 140, { fit: "contain" })
+      .toBuffer();
 
-    const svgText = `
-      <svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
-        <style>
-          .header { fill: white; font-size: 32px; font-family: Arial, sans-serif; opacity: 0.9; }
-          .title { fill: white; font-size: 72px; font-weight: bold; font-family: Arial, sans-serif; }
-          .subtitle { fill: #CBD5E1; font-size: 28px; font-family: Arial, sans-serif; }
-        </style>
-        <rect width="1200" height="630" fill="rgba(0,0,0,0.6)"/>
-        
-        <!-- Header text -->
-        <text x="600" y="160" text-anchor="middle" class="header">${copyContent.headerText}</text>
-        
-        <!-- Main title -->
-        <text x="600" y="280" text-anchor="middle" class="title">${copyContent.heroText}</text>
-        
-        <!-- Subtitle (multiple lines) -->
-        ${subtitleLines.map((line, i) => 
-          `<text x="600" y="${380 + (i * 40)}" text-anchor="middle" class="subtitle">${line}</text>`
-        ).join('')}
+    const subheadingSvg = subheadingLines
+      .map(
+        (line, i) =>
+          `<text x="600" y="${470 + i * 36}" text-anchor="middle" fill="#4b5563" font-size="26" font-family="Arial, Helvetica, sans-serif">${line}</text>`
+      )
+      .join("");
+
+    const svg = `
+      <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f7f7f2"/>
+            <stop offset="50%" stop-color="#eef0e8"/>
+            <stop offset="100%" stop-color="#e4e8dc"/>
+          </linearGradient>
+        </defs>
+        <rect width="${width}" height="${height}" fill="url(#bg)"/>
+        <text x="600" y="320" text-anchor="middle" fill="#1a1a1a" font-size="64" font-family="Arial, Helvetica, sans-serif" font-weight="600">
+          ${brand}
+        </text>
+        <text x="600" y="380" text-anchor="middle" fill="#708259" font-size="32" font-family="Arial, Helvetica, sans-serif">
+          ${tagline}
+        </text>
+        ${subheadingSvg}
       </svg>
     `;
 
-    // Load and process the background image
-    const background = sharp('public/background.avif');
-    
-    // Resize and composite with text overlay
-    await background
-      .resize(1200, 630, {
-        fit: 'cover',
-        position: 'center'
-      })
+    await sharp(Buffer.from(svg))
       .composite([
         {
-          input: Buffer.from(svgText),
-          top: 0,
-          left: 0,
+          input: icon,
+          top: 80,
+          left: Math.round((width - 140) / 2),
         },
       ])
-      .toFormat('jpeg', { quality: 90 })
-      .toFile('public/og-image.jpg');
+      .toFormat("jpeg", { quality: 90 })
+      .toFile("public/og-image.jpg");
 
-    console.log('OG image generated successfully!');
+    console.log("OG image generated successfully!");
   } catch (error) {
-    console.error('Error generating OG image:', error);
+    console.error("Error generating OG image:", error);
+    process.exit(1);
   }
 }
 
-generateOGImage(); 
+generateOGImage();
