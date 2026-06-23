@@ -38,7 +38,7 @@ async function generateOGImage() {
       escapeXml
     );
 
-    const icon = await sharp("app/images/Grove-01.png")
+    const icon = await sharp("public/images/Grove-01.png")
       .resize(140, 140, { fit: "contain" })
       .toBuffer();
 

@@ -2,7 +2,6 @@
 
 import { WaitlistCta } from "@/components/waitlist-cta";
 import copyContent from "../data/copy.json";
-import groveMark from "./images/Grove-01.png";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 
@@ -75,7 +74,7 @@ export default function WaitlistPage() {
         <div className="grove-glass flex w-full flex-col gap-4 overflow-hidden px-6 py-5 text-center sm:gap-5 sm:px-8 sm:py-6">
           <header className="flex flex-col items-center gap-2.5">
             <Image
-              src={groveMark}
+              src="/images/Grove-01.png"
               alt=""
               width={80}
               height={80}

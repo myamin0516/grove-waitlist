@@ -13,14 +13,11 @@
     "author": "Earl Nightingale"
   },
   "card": {
-    "title": "Join the waitlist",
-    "description": "Sign up to be one of the first to use Grove.",
     "emailPlaceholder": "Enter your email...",
     "buttonText": "Get Notified",
     "submittingText": "Submitting...",
     "successTitle": "You're on the list.",
     "successSubtitle": "We'll be in touch soon.",
-    "successText": "You're on the list. We'll be in touch soon.",
     "errorText": "Something went wrong. Please try again."
   },
   "footerText": "© 2026 Grove",
