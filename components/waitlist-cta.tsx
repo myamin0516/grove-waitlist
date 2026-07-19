@@ -15,6 +15,7 @@ type WaitlistCtaProps = {
   email: string;
   onEmailChange: (value: string) => void;
   onSubmit: (e: FormEvent) => void;
+  className?: string;
 };
 
 export function WaitlistCta({
@@ -22,30 +23,27 @@ export function WaitlistCta({
   email,
   onEmailChange,
   onSubmit,
+  className,
 }: WaitlistCtaProps) {
   const isSubmitting = status === "submitting";
   const isSuccess = status === "success";
   const isError = status === "error";
 
   return (
-    <div className="mx-auto w-full max-w-md">
+    <div className={cn("w-full max-w-md", className)}>
       <form
         onSubmit={onSubmit}
         className="rounded-2xl border border-white/60 bg-white/85 p-2 shadow-sm sm:p-1.5"
       >
-        <div className="flex min-h-11 flex-col gap-2 transition-all duration-500 ease-in-out sm:flex-row sm:items-center">
-          <div
-            className={cn(
-              "overflow-hidden transition-all duration-500 ease-in-out motion-reduce:transition-none",
-              isSuccess
-                ? "max-h-0 max-w-0 flex-[0_0_0%] opacity-0"
-                : "max-h-12 w-full flex-1 opacity-100 sm:max-w-none"
-            )}
-          >
+        <div className="flex min-h-11 flex-col gap-2 sm:flex-row sm:items-center">
+          <div className="relative min-h-11 w-full flex-1">
             <Input
               type="email"
               placeholder={copyContent.card.emailPlaceholder}
-              className="h-11 border-0 bg-transparent text-base shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+              className={cn(
+                "h-11 border-0 bg-transparent text-base shadow-none transition-opacity duration-500 focus-visible:ring-0 focus-visible:ring-offset-0 motion-reduce:transition-none",
+                isSuccess && "pointer-events-none opacity-0 disabled:opacity-0"
+              )}
               value={email}
               onChange={(e) => onEmailChange(e.target.value)}
               required
@@ -53,53 +51,44 @@ export function WaitlistCta({
               aria-label="Email address"
               tabIndex={isSuccess ? -1 : 0}
             />
-          </div>
-
-          {isSuccess ? (
-            <div
-              className="pointer-events-none flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-grove-olive/90 px-4 text-sm font-medium text-primary-foreground motion-reduce:transition-none"
+            <span
               role="status"
               aria-live="polite"
-            >
-              <span className="whitespace-nowrap">
-                {copyContent.card.successTitle}
-              </span>
-              <OakTreeLottie size={28} />
-            </div>
-          ) : (
-            <Button
-              type="submit"
-              disabled={isSubmitting}
               className={cn(
-                "h-11 shrink-0 rounded-xl bg-primary px-5 text-sm font-medium text-primary-foreground transition-all duration-500 ease-in-out hover:bg-grove-olive-light motion-reduce:transition-none",
-                "w-full sm:w-auto"
+                "absolute inset-0 flex items-center px-3 text-sm text-muted-foreground transition-opacity duration-500 motion-reduce:transition-none",
+                isSuccess ? "opacity-100" : "pointer-events-none opacity-0"
               )}
             >
-              <span
-                className={cn(
-                  "inline-flex items-center gap-2 transition-opacity duration-300",
-                  isSubmitting ? "opacity-100" : "opacity-100"
-                )}
-              >
-                {isSubmitting
+              {copyContent.card.successSubtitle}
+            </span>
+          </div>
+
+          <Button
+            type="submit"
+            disabled={isSubmitting || isSuccess}
+            className={cn(
+              "h-11 shrink-0 rounded-xl bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors duration-300 hover:bg-grove-olive-light motion-reduce:transition-none",
+              "w-full sm:w-auto",
+              isSuccess && "pointer-events-none disabled:opacity-100"
+            )}
+          >
+            <span className="inline-flex items-center gap-2">
+              {isSuccess
+                ? copyContent.card.successTitle
+                : isSubmitting
                   ? copyContent.card.submittingText
                   : copyContent.card.buttonText}
-                {isSubmitting ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <ArrowRight className="h-4 w-4" />
-                )}
-              </span>
-            </Button>
-          )}
+              {isSuccess ? (
+                <OakTreeLottie size={24} />
+              ) : isSubmitting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <ArrowRight className="h-4 w-4" />
+              )}
+            </span>
+          </Button>
         </div>
       </form>
-
-      {isSuccess && (
-        <p className="mt-2 text-center text-sm text-muted-foreground">
-          {copyContent.card.successSubtitle}
-        </p>
-      )}
 
       {isError && (
         <p className="mt-2 text-sm font-medium text-destructive" role="alert">

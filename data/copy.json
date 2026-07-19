@@ -16,8 +16,8 @@
     "emailPlaceholder": "Enter your email...",
     "buttonText": "Get Notified",
     "submittingText": "Submitting...",
-    "successTitle": "You're on the list.",
-    "successSubtitle": "We'll be in touch soon.",
+    "successTitle": "Success",
+    "successSubtitle": "You'll be notified.",
     "errorText": "Something went wrong. Please try again."
   },
   "footerText": "© 2026 Grove",

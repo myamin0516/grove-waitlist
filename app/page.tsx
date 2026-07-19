@@ -1,5 +1,6 @@
 "use client";
 
+import { PhoneDemo } from "@/components/phone-demo";
 import { WaitlistCta } from "@/components/waitlist-cta";
 import copyContent from "../data/copy.json";
 import Image from "next/image";
@@ -70,58 +71,59 @@ export default function WaitlistPage() {
         <div className="absolute right-[10%] top-[50%] h-[35%] w-[40%] rounded-full bg-[#b5c9a5]/35 blur-[85px]" />
       </div>
 
-      <div className="relative flex h-full items-center justify-center px-8 py-4 sm:px-12">
-        <div className="grove-glass flex w-full flex-col gap-4 overflow-hidden px-6 py-5 text-center sm:gap-5 sm:px-8 sm:py-6">
-          <header className="flex flex-col items-center gap-2.5">
-            <Image
-              src="/images/Grove-01.png"
-              alt=""
-              width={80}
-              height={80}
-              className="h-16 w-16 rounded-2xl sm:h-[4.5rem] sm:w-[4.5rem]"
-              priority
-            />
-            <div className="space-y-1">
-              <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-                {copyContent.brand.name}
-              </h1>
-              <p className="text-sm tracking-wide text-grove-olive sm:text-base">
-                {copyContent.brand.tagline}
-              </p>
+      <div className="relative flex h-full items-center justify-center px-5 py-4 sm:px-8 md:px-10">
+        <div className="grove-glass flex h-full w-full items-center justify-center overflow-hidden px-5 py-5 sm:px-8 sm:py-6 md:px-10 md:py-8">
+          {/* Centered cluster: copy + phone as one unit */}
+          <div className="mx-auto flex h-full w-full max-w-5xl flex-col items-center justify-center gap-5 sm:gap-6 md:h-auto md:flex-row md:items-center md:gap-10 lg:max-w-6xl lg:gap-12">
+            {/* Left: brand → headline → sub → CTA → footer */}
+            <div className="flex w-full min-w-0 flex-col items-center gap-4 text-center sm:gap-5 md:max-w-xl md:flex-1 md:items-start md:justify-center md:gap-6 md:text-left">
+              <header className="flex flex-col items-center gap-2 md:flex-row md:items-center md:gap-3">
+                <Image
+                  src="/images/Grove-01.png"
+                  alt=""
+                  width={64}
+                  height={64}
+                  className="h-11 w-11 rounded-xl sm:h-12 sm:w-12 md:h-14 md:w-14"
+                  priority
+                />
+                <div className="space-y-0.5">
+                  <p className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                    {copyContent.brand.name}
+                  </p>
+                  <p className="text-sm tracking-wide text-grove-olive">
+                    {copyContent.brand.tagline}
+                  </p>
+                </div>
+              </header>
+
+              <div className="flex flex-col gap-2.5 sm:gap-3">
+                <h1 className="max-w-xl text-3xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
+                  {copyContent.hero.headline}
+                </h1>
+                <p className="max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg">
+                  {copyContent.hero.subheading}
+                </p>
+              </div>
+
+              <div className="flex w-full flex-col items-center gap-2 md:items-start">
+                <WaitlistCta
+                  status={ctaStatus}
+                  email={email}
+                  onEmailChange={setEmail}
+                  onSubmit={handleSubmit}
+                  className="mx-auto md:mx-0"
+                />
+                <footer className="text-xs text-muted-foreground">
+                  {copyContent.footerText}
+                </footer>
+              </div>
             </div>
-          </header>
 
-          <div className="mx-auto flex flex-col gap-2">
-            <h2 className="whitespace-nowrap text-[0.8125rem] font-semibold leading-snug tracking-tight text-foreground sm:text-2xl sm:leading-tight">
-              {copyContent.hero.headline}
-            </h2>
-            <p className="mx-auto max-w-md text-sm leading-relaxed text-muted-foreground sm:text-[0.9375rem]">
-              {copyContent.hero.subheading}
-            </p>
+            {/* Right: smaller app demo */}
+            <div className="flex shrink-0 items-center justify-center">
+              <PhoneDemo className="h-[min(32dvh,100%)] md:h-[64dvh] md:max-h-[640px]" />
+            </div>
           </div>
-
-          <WaitlistCta
-            status={ctaStatus}
-            email={email}
-            onEmailChange={setEmail}
-            onSubmit={handleSubmit}
-          />
-
-          <blockquote className="mx-auto max-w-md border-l border-grove-olive/25 py-0 pl-3.5 text-left">
-            <p className="text-[0.6875rem] italic leading-relaxed text-muted-foreground/75 sm:text-xs">
-              &ldquo;{copyContent.quote.text}&rdquo;
-            </p>
-            <footer className="mt-1 text-[0.6875rem] text-muted-foreground/60">
-              — {copyContent.quote.author}
-            </footer>
-          </blockquote>
-
-          <p className="mt-1 text-sm font-medium text-muted-foreground sm:text-base">
-            · {copyContent.brand.badge.replace(/^Grove is /i, "")}
-          </p>
-          <footer className="text-xs text-muted-foreground">
-            {copyContent.footerText}
-          </footer>
         </div>
       </div>
     </div>
