@@ -97,7 +97,7 @@ export default function WaitlistPage() {
               </header>
 
               <div className="flex flex-col gap-2.5 sm:gap-3">
-                <h1 className="max-w-xl text-3xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
+                <h1 className="max-w-xl text-2xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
                   {copyContent.hero.headline}
                 </h1>
                 <p className="max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -121,7 +121,7 @@ export default function WaitlistPage() {
 
             {/* Right: smaller app demo */}
             <div className="flex shrink-0 items-center justify-center">
-              <PhoneDemo className="h-[min(32dvh,100%)] md:h-[64dvh] md:max-h-[640px]" />
+              <PhoneDemo className="h-[min(36dvh,100%)] md:h-[70dvh] md:max-h-[700px]" />
             </div>
           </div>
         </div>
