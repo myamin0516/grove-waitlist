@@ -1,8 +1,8 @@
 {
   "brand": {
-    "name": "Grove",
+    "name": "Grove Note",
     "tagline": "tend to your ideas",
-    "badge": "Grove is launching soon"
+    "badge": "Grove Note is launching soon"
   },
   "hero": {
     "headline": "The notes app built for revisiting, not just capturing.",
@@ -20,12 +20,12 @@
     "successSubtitle": "You'll be notified.",
     "errorText": "Something went wrong. Please try again."
   },
-  "footerText": "© 2026 Grove",
+  "footerText": "© 2026 Grove Note",
   "config": {
     "webhookUrl": "https://hook.us2.make.com/pd1ahaiqye2ktaybjrfgxsf2uflx52tx",
     "metadata": {
-      "title": "Grove — tend to your ideas",
-      "description": "Join the Grove waitlist. The notes app built for revisiting, not just capturing.",
+      "title": "Grove Note — tend to your ideas",
+      "description": "Join the Grove Note waitlist. The notes app built for revisiting, not just capturing.",
       "ogImage": "/og-image.jpg"
     }
   }
