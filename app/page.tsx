@@ -113,8 +113,19 @@ export default function WaitlistPage() {
                   onSubmit={handleSubmit}
                   className="mx-auto md:mx-0"
                 />
-                <footer className="text-xs text-muted-foreground">
-                  {copyContent.footerText}
+                <footer className="space-y-0.5 text-xs text-muted-foreground/75">
+                  <p>{copyContent.footerText}</p>
+                  <p>
+                    {copyContent.company.credit}{" "}
+                    <a
+                      href={copyContent.company.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline-offset-2 transition-colors hover:text-muted-foreground hover:underline"
+                    >
+                      {copyContent.company.name}
+                    </a>
+                  </p>
                 </footer>
               </div>
             </div>

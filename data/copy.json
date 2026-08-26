@@ -21,6 +21,11 @@
     "errorText": "Something went wrong. Please try again."
   },
   "footerText": "© 2026 Grove Note",
+  "company": {
+    "name": "Humble Fern LLC",
+    "url": "https://humblefern.vercel.app/",
+    "credit": "A product of"
+  },
   "config": {
     "webhookUrl": "https://hook.us2.make.com/pd1ahaiqye2ktaybjrfgxsf2uflx52tx",
     "metadata": {
